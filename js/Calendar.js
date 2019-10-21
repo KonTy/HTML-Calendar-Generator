@@ -1,13 +1,17 @@
 function calendar(arr) {
-    let [day,month,year]=arr.map(Number);
+    let [day,month,year] = arr.map(Number);
+    const monthNames =  ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
     let html = "<table>\n";
-    html += " <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>\n";
+    html += "&nbsp;"
+    html += "<tr><th colspan=\"7\" align=\"middle\">" + monthNames[month] + "</th></tr>\n";
+    html += "<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>\n";
     let currentDate = new Date(year, month - 1, 1);
     let lastDayOfPreviousMonth = new Date(year, month - 1, 0).getDate();
     if (currentDate.getDay() !== 0) {
         currentDate = new Date(year, month - 2, lastDayOfPreviousMonth - currentDate.getDay() + 1);
     }
- 
+
     let previousMonth = new Date(year, month - 2, 1).getMonth();
     let nextMonth = new Date(year, month, 1).getMonth();
     while (currentDate.getMonth() !== nextMonth ||
@@ -35,7 +39,7 @@ function calendar(arr) {
     return html;
 }
  
-console.log(calendar([24, 12, 2012]));
+//console.log(calendar([24, 12, 2012]));
 
 // function tableCreate(startDate) {
 //     var rows = 5,
