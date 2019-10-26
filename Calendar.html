@@ -1,8 +1,109 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="css/Calendar.css">
-    <script src="js/calendar.js" defer></script>
+    <style>
+      .prev-month, .next-month {
+        color: #CCC;
+        width: 200px;
+      }
+
+      .today {
+        font-weight: normal;
+        background: transparent;
+        width: 100px;
+      }
+
+      .title {
+        background: #AAAAFF;
+        margin: 10px 0;
+        padding: 5px
+      }
+
+      table {
+        border: 1px solid #CCC;
+        padding: 0px;
+        margin: 0;
+      }
+
+      table th {
+        text-align: left;
+        vertical-align: top;
+        width: 100px;
+        border: 1px solid black;
+        padding: 0px;
+        margin: 0;
+      }
+
+      table td {
+        text-align: left;
+        vertical-align: top;
+        width: 100px;
+        border: 1px solid black;
+        height: 80px;
+        padding: 0px;
+        margin: 0;
+      }
+
+      #calendarCode {
+        width: 100%;
+      }
+
+      html, body {
+        font: normal 15px Calibri;      /* This translates into 11px when copied into OneNote */
+        margin: 0;
+        padding: 0;
+      }
+
+    </style>
+
+    <!-- <link rel="stylesheet" type="text/css" href="css/Calendar.css"> -->
+    <!-- <script src="js/calendar.js" defer></script> -->
+    <script lang="javascript">
+
+      function calendar(arr) {
+      
+        let [day,month,year] = arr.map(Number);
+        const monthNames =  ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        let html = "<table>\n";
+        html += "&nbsp;"
+        html += "<tr><th colspan=\"7\" align=\"middle\">" + monthNames[month] + "</th></tr>\n";
+        html += "<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>\n";
+        html += "&nbsp;"
+        let currentDate = new Date(year, month - 1, 1);
+        let lastDayOfPreviousMonth = new Date(year, month - 1, 0).getDate();
+        if (currentDate.getDay() !== 0) {
+            currentDate = new Date(year, month - 2, lastDayOfPreviousMonth - currentDate.getDay() + 1);
+        }
+
+        let previousMonth = new Date(year, month - 2, 1).getMonth();
+        let nextMonth = new Date(year, month, 1).getMonth();
+        while (currentDate.getMonth() !== nextMonth ||
+        currentDate.getDay() !== 0) {
+            if (currentDate.getDay() === 0) {
+                html += " <tr>";
+            }
+            if (currentDate.getMonth() === previousMonth) {
+                html += `<td class="prev-month">${currentDate.getDate()}</td>`;
+            } else if (currentDate.getMonth() === nextMonth) {
+                html += `<td class="next-month">${currentDate.getDate()}</td>`;
+            } else if (currentDate.getDate() === day) {
+                html += `<td class="today">${currentDate.getDate()}</td>`;
+            } else {
+                html += `<td>${currentDate.getDate()}</td>`;
+            }
+            if (currentDate.getDay() === 6) {
+                html += "</tr>\n";
+            }
+    
+            currentDate.setDate(currentDate.getDate() + 1);
+    
+        }
+        html += "</table>";
+        return html;
+      }
+
+    </script>
     <title>Monthly Calendar</title>
 </head>
  
